@@ -44,7 +44,15 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
   
   override func viewDidLoad() {
     super.viewDidLoad()
-
+    categories
+      .subscribe(onNext:{
+        [weak self] _ in
+        
+        DispatchQueue.main.async {
+          self?.tableView.reloadData()
+        }
+        
+      })
     startDownload()
   }
 
