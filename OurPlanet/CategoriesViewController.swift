@@ -37,7 +37,11 @@ import RxCocoa
 class CategoriesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
   @IBOutlet var tableView: UITableView!
-
+  let categories = BehaviorRelay<[EOCategory]>(value: [])
+  let disposeBag = DisposeBag()
+  
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
@@ -46,15 +50,30 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
 
   func startDownload() {
     
+    let eoCategories = EONET.categories
+    
+    eoCategories
+      .bind(to: categories)
+      .disposed(by: disposeBag)
+    
+    
+    
+    
+    
   }
   
   // MARK: UITableViewDataSource
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 0
+    return categories.value.count
   }
   
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell")!
+    
+    cell.textLabel?.text = categories.value[indexPath.row].name
+    
+    cell.detailTextLabel?.text = categories.value[indexPath.row].description
+    
     return cell
   }
   
