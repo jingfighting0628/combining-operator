@@ -34,7 +34,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-class EventsViewController: UIViewController, UITableViewDataSource {
+class EventsViewController: UIViewController, UITableViewDataSource,UITableViewDelegate {
 
   @IBOutlet var tableView: UITableView!
   @IBOutlet var slider: UISlider!
@@ -63,12 +63,18 @@ class EventsViewController: UIViewController, UITableViewDataSource {
 
   // MARK: UITableViewDataSource
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return 0
+    return events.value.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventCell
+    
+    let event = events.value[indexPath.row]
+    cell.configure(event: event)
+    
+    
+    
     return cell
   }
-
+  
 }
