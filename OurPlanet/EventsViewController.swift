@@ -39,7 +39,10 @@ class EventsViewController: UIViewController, UITableViewDataSource {
   @IBOutlet var tableView: UITableView!
   @IBOutlet var slider: UISlider!
   @IBOutlet var daysLabel: UILabel!
-
+  let events = BehaviorRelay<[EOEvent]>(value: [])
+  let disposedBag = DisposeBag()
+  
+  
   override func viewDidLoad() {
     super.viewDidLoad()
 
