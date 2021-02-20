@@ -122,6 +122,20 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     
     return cell
   }
+  func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    let category = categories.value[indexPath.row]
+    tableView.deselectRow(at: indexPath, animated: true)
+    
+    guard !category.events.isEmpty else {
+      return
+    }
+    let eventController = storyboard!.instantiateViewController(withIdentifier: "events") as! EventsViewController
+    eventController.title = category.name
+    eventController.events.accept(category.events)
+    navigationController!.pushViewController(eventController, animated: true)
+    
+  }
   
 }
 
