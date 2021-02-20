@@ -46,6 +46,14 @@ class EventsViewController: UIViewController, UITableViewDataSource {
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    events.asObservable()
+      .subscribe(onNext:{
+        [weak self] _ in
+        self?.tableView.reloadData()
+        
+      })
+      .disposed(by: disposedBag)
+    
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 60
   }
