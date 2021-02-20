@@ -120,5 +120,23 @@ class EONET {
     
     
   }()
+  
+  private static func events(forLast days :Int ,closed:Bool) -> Observable<[Event]>{
+    
+    let query :[String :Any] = [
+      "days":days,
+      "status":(closed ? "closed" : "open")
+    
+    ]
+    
+    let request : Observable<[EOEvent]> = EONET.request(endpoint: eventsEndpoint, query: query,contentIdentifier: "events")
+    
+    return request.catchErrorJustReturn([])
+    
+    
+    
+    
+  }
+  
 
 }
