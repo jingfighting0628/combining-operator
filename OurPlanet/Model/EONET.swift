@@ -140,9 +140,16 @@ class EONET {
     
     let closeEvents = events(forLast: days,closed: true)
     
-    return openEvents.concat(closeEvents)
+    //return openEvents.concat(closeEvents)
     
-    
+    return Observable.of(openEvents,closeEvents)
+      .merge()
+      .reduce([]){
+        running , new in
+        
+        running + new
+        
+      }
     
     
     
