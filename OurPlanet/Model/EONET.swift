@@ -121,7 +121,7 @@ class EONET {
     
   }()
   
-  private static func events(forLast days :Int ,closed:Bool) -> Observable<[Event]>{
+  private static func events(forLast days :Int ,closed:Bool) -> Observable<[EOEvent]>{
     
     let query :[String :Any] = [
       "days":days,
@@ -132,11 +132,20 @@ class EONET {
     let request : Observable<[EOEvent]> = EONET.request(endpoint: eventsEndpoint, query: query,contentIdentifier: "events")
     
     return request.catchErrorJustReturn([])
+
+  }
+  static func events(forLast days : Int = 360) -> Observable<[EOEvent]>{
+    
+    let openEvents = events(forLast: days,closed: false)
+    
+    let closeEvents = events(forLast: days,closed: true)
+    
+    return openEvents.concat(closeEvents)
+    
     
     
     
     
   }
-  
 
 }
