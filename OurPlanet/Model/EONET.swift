@@ -136,9 +136,9 @@ class EONET {
   }
   static func events(forLast days : Int = 360 ,category :EOCategory) -> Observable<[EOEvent]>{
     
-    let openEvents = events(forLast: days,closed: false)
+    let openEvents = events(forLast: days,closed: false ,endpoint: category.endpoint)
     
-    let closeEvents = events(forLast: days,closed: true)
+    let closeEvents = events(forLast: days,closed: true,endpoint: category.endpoint)
     
     //return openEvents.concat(closeEvents)
     
