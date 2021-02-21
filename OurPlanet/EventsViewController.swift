@@ -48,6 +48,25 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
   override func viewDidLoad() {
     super.viewDidLoad()
 
+    Observable.combineLatest(days,events){
+      
+      days,events ->[EOEvent] in
+      
+      let maxInterval = TimeInterval(days * 24 * 3600)
+      return events.filter{
+        event in
+        
+        if let date = event.date {
+          return abs(date.timeIntervalSinceNow) < maxInterval
+        }
+        return true
+      }
+    }
+    .bind(to: filteredEvents)
+    .disposed(by: disposedBag)
+    
+    
+    
     events.asObservable()
       .subscribe(onNext:{
         [weak self] _ in
