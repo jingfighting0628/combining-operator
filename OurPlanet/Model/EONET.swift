@@ -134,7 +134,7 @@ class EONET {
     return request.catchErrorJustReturn([])
 
   }
-  static func events(forLast days : Int = 360) -> Observable<[EOEvent]>{
+  static func events(forLast days : Int = 360 ,category :EOCategory) -> Observable<[EOEvent]>{
     
     let openEvents = events(forLast: days,closed: false)
     
