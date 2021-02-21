@@ -96,13 +96,16 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
 
   // MARK: UITableViewDataSource
   func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    return events.value.count
+    //return events.value.count
+    return filteredEvents.value.count
   }
 
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: "eventCell") as! EventCell
     
-    let event = events.value[indexPath.row]
+    //let event = events.value[indexPath.row]
+    let event = filteredEvents.value[indexPath.row]
+    
     cell.configure(event: event)
     
     
