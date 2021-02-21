@@ -73,7 +73,12 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
         }
         
       })
-    
+    days.asObservable()
+      .subscribe(onNext:{
+        [weak self] days in
+        self?.daysLabel.text = "Last\(days) days"
+      })
+      .disposed(by: disposedBag)
     
     /*
     events.asObservable()
