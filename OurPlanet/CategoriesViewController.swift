@@ -38,6 +38,7 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
 
   @IBOutlet var tableView: UITableView!
   let categories = BehaviorRelay<[EOCategory]>(value: [])
+  let filteredEvents = BehaviorRelay<[EOEvent]>(value: [])
   let disposeBag = DisposeBag()
   
   
@@ -78,8 +79,9 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
           EONET.events(forLast: 360, category:category )
         })
       }
+  
     
-    
+    /*
     let updatedCategories = Observable
       .combineLatest(eoCategories, downloadedEvents){
         (categories,events) ->[EOCategory] in
@@ -101,6 +103,22 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
         
         
       }
+    */
+    let updatedCategories = eoCategories.flatMap { categories in
+      downloadedEvents.scan(categories) { updated, events in
+        return updated.map { category in
+          let eventsForCategory = EONET.filteredEvents(events: events, forCategory: category)
+          if !eventsForCategory.isEmpty {
+            var cat = category
+            cat.events = cat.events + eventsForCategory
+            return cat
+          }
+          return category
+        }
+      }
+    }
+    
+    
     
       eoCategories
         .concat(updatedCategories)
