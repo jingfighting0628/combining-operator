@@ -65,8 +65,17 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
     .bind(to: filteredEvents)
     .disposed(by: disposedBag)
     
+    filteredEvents.asObservable()
+      .subscribe(onNext:{
+        _ in
+        DispatchQueue.main.async {
+          self.tableView.reloadData()
+        }
+        
+      })
     
     
+    /*
     events.asObservable()
       .subscribe(onNext:{
         [weak self] _ in
@@ -74,12 +83,15 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
         
       })
       .disposed(by: disposedBag)
-    
+    */
     tableView.rowHeight = UITableView.automaticDimension
     tableView.estimatedRowHeight = 60
   }
 
   @IBAction func sliderAction(slider: UISlider) {
+    
+    days.accept(Int(slider.value))
+    
   }
 
   // MARK: UITableViewDataSource
