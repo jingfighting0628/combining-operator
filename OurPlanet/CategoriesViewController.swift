@@ -68,7 +68,17 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
     
     let eoCategories = EONET.categories
     
-    let downloadedEvents = EONET.events(forLast: 360)
+    //let downloadedEvents = EONET.events(forLast: 360)
+    let downloadedEvents = eoCategories
+      .flatMap{
+        categories in
+        
+        return Observable.from(categories.map{
+          category in
+          EONET.events(forLast: 360, category:category )
+        })
+      }
+    
     
     let updatedCategories = Observable
       .combineLatest(eoCategories, downloadedEvents){
