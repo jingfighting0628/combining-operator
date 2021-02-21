@@ -41,6 +41,8 @@ class EventsViewController: UIViewController, UITableViewDataSource,UITableViewD
   @IBOutlet var daysLabel: UILabel!
   let events = BehaviorRelay<[EOEvent]>(value: [])
   let disposedBag = DisposeBag()
+  let days = BehaviorRelay<Int>(value: 360)
+  let filteredEvents = BehaviorRelay<[EOEvent]>(value: [])
   
   
   override func viewDidLoad() {
