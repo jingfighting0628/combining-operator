@@ -79,7 +79,7 @@ class CategoriesViewController: UIViewController, UITableViewDataSource, UITable
           EONET.events(forLast: 360, category:category )
         })
       }
-  
+      .merge(maxConcurrent: 2)
     
     /*
     let updatedCategories = Observable
